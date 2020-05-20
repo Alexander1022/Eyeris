@@ -1,6 +1,7 @@
 # Eyeris
 
 ![https://github.com/Alexander1022/Eyeris/blob/master/Eyeris0.png]
+Format: ![Alt Text](url)
 
 Eyeris е виртуален асистент, разработен на Python.
 
