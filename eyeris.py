@@ -31,7 +31,6 @@ def introduction():
 
 # функция за разпознаване на глас
 def speech_recognition():
-    app.setTextArea("log", "* Eyeris is waiting for your voice *\n" , end=True, callFunction=False)
     r = sr.Recognizer()
     with sr.Microphone() as source:
         audio = r.listen(source)
@@ -42,14 +41,13 @@ def speech_recognition():
             app.setTextArea("log", "User : " + said_by_user.capitalize() + "\n" , end=True, callFunction=True)
 
         except Exception as e:
-            app.setTextArea("log", "Exception : I couldn't understand this. There is an error in Google SpeechRecognition! \n" , end=True, callFunction=False)
             speak_text("Exception : I couldn't understand this. There is an error in Google SpeechRecognition! ")
             said_by_user = ""
 
     return said_by_user.lower()
 
 def wake_up():
-    speak_text("I am here!")
+    playsound.playsound("sound.mp3")
 
 #функция - пита те за име
 def ask_for_name():
@@ -111,6 +109,7 @@ def press(button):
         app.stop()
 
     elif button == "Wake":
+        wake_up()
         simple_phrases()
         app.setTextArea("log", "\n" , end=True, callFunction=False)
 
@@ -238,16 +237,17 @@ def simple_phrases():
         speak_text("Dictionary is open and ready to use")
         dictionary()
 
-    else:
-        speak_text("I don't get it. Sorry.")
+    elif "introduce" in speech_input:
+        introduction()
 
-#main f
-with gui("Eyeris 1.0", "600x400") as app:
+    else:
+        speak_text("I don't know what to say!")
+
+#main func
+with gui("Eyeris 1.0", "800x420") as app:
     make_dir()
     app.setLocation("CENTER")
-    app.setFont(size=16, family="Verdana")
-    app.setInputFont(family="Verdana")
-    #app.setIcon("logo.png")
+    app.setFont(size=20, family="Courier", weight="normal")
     app.setPadding([10,10])
     app.setInPadding([10,10])
     app.setOnTop(stay=False)
@@ -260,7 +260,6 @@ with gui("Eyeris 1.0", "600x400") as app:
     app.setLabelFg("title", "white")
     app.addScrolledTextArea(title="log", text="")
     app.addButtons(["Wake", "Exit"], press)
-    app.setButtonFont(size=13, family="Verdana")
     app.setStretch('column')
     app.setSticky('ew')
     app.addHorizontalSeparator(3,0,0, colour="white")
@@ -268,9 +267,7 @@ with gui("Eyeris 1.0", "600x400") as app:
     app.addLabel("bottom", "For TUES Fest 2020")
     app.setLabelFg("bottom", "black")
     app.setLabelBg("bottom", "gainsboro")
-    app.setLabelFont("bottom", size="12")
     #app.showSplash("Welcome to Eyeris 1.0", fill='black', stripe='white', fg='black', font=30)
-    app.go()
 
 if __name__ == "__main__":
     main()
