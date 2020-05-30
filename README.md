@@ -2,6 +2,8 @@
 
 ![Eyeris Logo](https://github.com/Alexander1022/Eyeris/blob/master/Eyeris0.png)
 
+![Screenshot of Eyeris] (https://github.com/Alexander1022/Eyeris/blob/master/screenshot.PNG)
+
 
 Eyeris е виртуален асистент, разработен на Python с модерен графичен интерфейс.
 
