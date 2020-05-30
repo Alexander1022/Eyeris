@@ -7,8 +7,6 @@ Eyeris е виртуален асистент, разработен на Python.
 
 ## Как да си сваля и използвам проекта? 
 
-Скоро ще бъдат добавени инструкции.
-
 ### Инструкции за сваляне
 
 1) Download Python / Изтеглете Python (препоръчително е Python 3.7+)
@@ -45,7 +43,7 @@ from appJar import gui
 
 Скоро ще бъдат добавени инструкции.
 
-1) cd int the folder of the clone
+1) cd into the folder of the clone
 2) python (or python 3 for Linux-based os) eyeris.py
 3) enjoy the app :)
 
