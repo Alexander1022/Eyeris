@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, random
 import time
 import playsound
 import speech_recognition as sr
@@ -11,6 +11,7 @@ import os.path
 from googlesearch import search
 from PyDictionary import PyDictionary
 from appJar import gui
+import pyautogui
 
 # функция за говорене
 
@@ -41,7 +42,7 @@ def speech_recognition():
             app.setTextArea("log", "User : " + said_by_user.capitalize() + "\n" , end=True, callFunction=True)
 
         except Exception as e:
-            speak_text("Exception : I couldn't understand this. There is an error in Google SpeechRecognition! ")
+            speak_text("I couldn't understand this.")
             said_by_user = ""
 
     return said_by_user.lower()
@@ -106,25 +107,38 @@ def dictionary():
 
 def press(button):
     if button == "Exit":
+        app.setStopFunction(checkStop)
         app.stop()
 
     elif button == "Wake":
         wake_up()
+        app.setTextArea("log", "* Eyeris is waiting for your answer *\n" , end=True, callFunction=False)
         simple_phrases()
         app.setTextArea("log", "\n" , end=True, callFunction=False)
 
+def checkStop():
+    return app.yesNoBox("Confirm Exit", "Are you sure you want to exit Eyeris?")
+
 #функция за фрази
 def simple_phrases():
+
+    THANKS = ("Thanks to my creators, not to me!", "No problem.", "I am here to help you.", "You're welcome")
+    HELLO_PHRASES = ("Hey!", "Hello!", "Hey there!", "Hello there!")
+    HOW_ARE_YOU_PHRASE = ("I am feeling fine.", "I am artificial intelligent, i have no emotions, so i am okay!", "I am good, because of you!", "I am good!", "I am well, thanks!")
+    EYERIS_NAME = ("My name is Eyeris.", "Eyeris.", "Eyeris. Nice to meet you!")
+    COIN = ("Heads", "Tails")
+    JOKES = ("What is the biggest lie in the entire universe? - I have read and agree to the Terms & Conditions.", "Why did the PowerPoint Presentation cross the road? - To get to the other slide.", "Why was the cell phone wearing glasses? - It lost its contacts.", "You know you're texting too much when...you say LOL in real life, instead of just laughing.")
+
     speech_input = speech_recognition()
 
     if "how are you" in speech_input:
-        speak_text("Fine, i am feeling fine")
+        speak_text(random.choice(HOW_ARE_YOU_PHRASE))
 
     elif "your name" in speech_input:
-        speak_text("My name is Eyeris. Don't forget my name!")
+        speak_text(random.choice(EYERIS_NAME))
 
     elif "are you ok" in speech_input:
-        speak_text("Yes, i am! I am artificial intelligent. Emotions will be added soon!")
+        speak_text("Yes.")
 
     elif "hey siri" in speech_input:
         speak_text("I am not Siri, i am Eyeris! Don't change my name please!")
@@ -141,10 +155,10 @@ def simple_phrases():
         app.stop()
 
     elif "hey" in speech_input:
-        speak_text("Hey there!")
+        speak_text(random.choice(HELLO_PHRASES))
 
     elif "hello" in speech_input:
-        speak_text("Hello there! How are you?")
+        speak_text(random.choice(HELLO_PHRASES))
 
     elif "play music" in speech_input:
         speak_text("I can't do this! I will teach myself to do it soon.")
@@ -158,32 +172,32 @@ def simple_phrases():
         speak_text("It's done!")
 
     elif "thanks" in speech_input:
-        speak_text("Thanks to my creators, not to me!")
+        speak_text(random.choice(THANKS))
 
     elif "thank you" in speech_input:
-        speak_text("Thanks to my creators, not to me!")
+        speak_text(random.choice(THANKS))
 
     elif "can you hear me" in speech_input:
         speak_text("Yes, i can!")
 
     elif "open google" in speech_input:
-        speak_text("I am opening Google")
+        speak_text("I am opening Google.")
         webbrowser.open('http://google.com', new=2)
 
     elif "open youtube" in speech_input:
-        speak_text("I am opening YouTube")
+        speak_text("I am opening YouTube.")
         webbrowser.open('http://youtube.com', new=2)
 
     elif "open facebook" in speech_input:
-        speak_text("I am opening Facebook")
+        speak_text("I am opening Facebook.")
         webbrowser.open('http://facebook.com', new=2)
 
     elif "take a selfie" in speech_input:
-        speak_text("I am opening the camera!")
+        speak_text("I am opening the camera.")
         subprocess.run('start microsoft.windows.camera:', shell=True)
 
     elif "take a picture" in speech_input:
-        speak_text("I am opening the camera")
+        speak_text("I am opening the camera.")
         subprocess.run('start microsoft.windows.camera:', shell=True)
 
     elif "notepad" in speech_input:
@@ -191,13 +205,19 @@ def simple_phrases():
         answer_note = speech_recognition()
 
         if "yes" in answer_note:
-            speak_text("what do you want to write down?")
+            speak_text("What do you want to write down?")
+            take_a_note = speech_recognition()
+            make_a_note(take_a_note)
+            return
+
+        elif "want" in answer_note:
+            speak_text("What do you want to write down?")
             take_a_note = speech_recognition()
             make_a_note(take_a_note)
             return
 
         elif "no" in answer_note:
-            speak_text("I am opening the notepad")
+            speak_text("I am opening the notepad.")
             subprocess.Popen("notepad.exe")
             return
 
@@ -214,15 +234,15 @@ def simple_phrases():
         google_search()
 
     elif "open explorer" in speech_input:
-        speak_text("I am opening Explorer")
+        speak_text("I am opening Explorer.")
         subprocess.Popen("explorer.exe")
 
     elif "open file manager" in speech_input:
-        speak_text("I am opening Explorer")
+        speak_text("I am opening Explorer.")
         subprocess.Popen("explorer.exe")
 
     elif "open calculator" in speech_input:
-        speak_text("I am opening calculator")
+        speak_text("I am opening calculator.")
         subprocess.Popen("calc.exe")
 
     elif "open settings" in speech_input:
@@ -230,18 +250,39 @@ def simple_phrases():
         #subprocess.run('start microsoft.windows.settings:')
 
     elif "open dictionary" in speech_input:
-        speak_text("Dictionary is open and ready to use")
+        speak_text("Dictionary is open and ready to use.")
         dictionary()
 
     elif "open the dictionary" in speech_input:
-        speak_text("Dictionary is open and ready to use")
+        speak_text("Dictionary is open and ready to use.")
         dictionary()
 
     elif "introduce" in speech_input:
         introduction()
+    
+    elif "how old are you" in speech_input:
+        speak_text("They say that age is nothing, but a number. Technically, it's a word.")
 
+    elif "where do you live" in speech_input:
+        speak_text("In your computer")
+
+    elif "your favourite colour" in speech_input:
+        speak_text("Virtual assistants usually don't have favourite colour")
+
+    elif "flip a coin" in speech_input:
+        speak_text(random.choice(COIN))
+
+    elif "tell me a joke" in speech_input:
+        speak_text(random.choice(JOKES))
+
+    elif "value of pi" in speech_input:
+        speak_text("3.14")
+
+    elif "meaning of life" in speech_input:
+        speak_text("Not to think about questions like this")
+    
     else:
-        speak_text("I don't know what to say!")
+        speak_text("I don't know what to answer.")
 
 #main func
 with gui("Eyeris 1.0", "800x420") as app:
@@ -259,6 +300,7 @@ with gui("Eyeris 1.0", "800x420") as app:
     app.setLabelBg("title", "black")
     app.setLabelFg("title", "white")
     app.addScrolledTextArea(title="log", text="")
+    app.setTextAreaFont("log", weight="bold")
     app.addButtons(["Wake", "Exit"], press)
     app.setStretch('column')
     app.setSticky('ew')
@@ -268,6 +310,7 @@ with gui("Eyeris 1.0", "800x420") as app:
     app.setLabelFg("bottom", "black")
     app.setLabelBg("bottom", "gainsboro")
     #app.showSplash("Welcome to Eyeris 1.0", fill='black', stripe='white', fg='black', font=30)
+
 
 if __name__ == "__main__":
     main()
